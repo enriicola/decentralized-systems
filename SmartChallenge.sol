@@ -6,7 +6,7 @@ contract SmartChallenge{
     // state variables
     struct Challenge{
         uint challengeId;
-        string flag;
+        bytes32 flagHash;
         uint256 reward;
     }
     mapping(uint => Challenge) public challenges;
@@ -33,7 +33,7 @@ contract SmartChallenge{
         require(challenges[_challengeId].challengeId == _challengeId, "Challenge does not exist");
         require(bytes(_flag).length > 0, "Flag cannot be empty");
         require(!solvedChallenges[msg.sender][_challengeId], "Challenge already solved by this player");
-        require(keccak256(abi.encodePacked(challenges[_challengeId].flag)) == keccak256(abi.encodePacked(_flag)), "Incorrect flag");
+        require(challenges[_challengeId].flagHash == keccak256(abi.encodePacked(_flag)), "Incorrect flag");
 
         solvedChallenges[msg.sender][_challengeId] = true;
         scores[msg.sender] += challenges[_challengeId].reward;
@@ -45,9 +45,9 @@ contract SmartChallenge{
     }
 
     function addChallenge(string memory _flag, uint256 _reward) public onlyOwner {
-        uint256 challengeId = challengeCounter++;
-        challenges[challengeId] = Challenge(challengeId, _flag, _reward);
-        emit ChallengeAdded(challengeId, _flag, _reward);
+        challengeCounter++;
+        challenges[challengeCounter] = Challenge(challengeCounter, keccak256(abi.encodePacked(_flag)), _reward);
+        emit ChallengeAdded(challengeCounter, _flag, _reward);
     }
     
     function getPlayers() public view returns (address[] memory) {
