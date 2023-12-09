@@ -36,18 +36,6 @@ SmartChallenge is a Solidity smart contract designed to facilitate a competition
 
 - `onlyOwner`: Ensures that only the contract owner can perform certain operations.
 
-## Deployment
-
-To deploy this contract, you need to have a development environment set up with Truffle or Hardhat, and a connection to an Ethereum network via Infura or a local node. You also need to have an account with enough Ether to deploy the contract. The contract is deployed by sending a transaction to the Ethereum network with the contract's bytecode and constructor arguments. After the transaction is confirmed, the contract is deployed at the resulting address.
-
 ## Interaction
 
 To interact with this contract, you can use the Web3.js or Ethers.js libraries in a JavaScript environment, or the `ethers` or `web3` CLI in a shell environment. You need to have the ABI of the contract, the address of the deployed contract, and a connection to an Ethereum network. You can then call the contract's functions with the necessary arguments and the correct amount of gas.
-
-## Testing
-
-To test this contract, you can write tests in JavaScript with the Chai assertion library and the Mocha testing framework, and run them on a local Ethereum network like Ganache. You can test the conditions for the success and failure of each function, the events they emit, and the changes they make to the contract's state.
-
-## Security
-
-This contract does not have any known security issues. However, it is recommended to use tools like Slither or Mythril to analyze the contract for potential vulnerabilities, and to follow the best practices for smart contract development.
