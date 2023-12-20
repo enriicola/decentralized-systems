@@ -1,0 +1,366 @@
+{
+	"compiler": {
+		"version": "0.8.22+commit.4fc1097e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "ChainlinkCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "ChainlinkFulfilled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "ChainlinkRequested",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferRequested",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "requestId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "volume",
+						"type": "uint256"
+					}
+				],
+				"name": "RequestVolume",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "acceptOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_requestId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_volume",
+						"type": "uint256"
+					}
+				],
+				"name": "fulfill",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "requestVolumeData",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "requestId",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "volume",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawLink",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"acceptOwnership()": {
+					"notice": "Allows an ownership transfer to be completed by the recipient."
+				},
+				"constructor": {
+					"notice": "Initialize the link token and target oracle Sepolia Testnet details: Link Token: 0x779877A7B0D9E8603169DdbD7836e478b4624789 Oracle: 0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD (Chainlink DevRel) jobId: ca98366cc7314957b8c012c72f05aeeb"
+				},
+				"fulfill(bytes32,uint256)": {
+					"notice": "Receive the response in the form of uint256"
+				},
+				"owner()": {
+					"notice": "Get the current owner"
+				},
+				"requestVolumeData()": {
+					"notice": "Create a Chainlink request to retrieve API response, find the target data, then multiply by 1000000000000000000 (to remove decimal places from data)."
+				},
+				"transferOwnership(address)": {
+					"notice": "Allows an owner to begin transferring ownership to a new address, pending."
+				},
+				"withdrawLink()": {
+					"notice": "Allow withdraw of Link tokens from the contract"
+				}
+			},
+			"notice": "Request testnet LINK and ETH here: https://faucets.chain.link/ Find information on LINK Token Contracts and get the latest ETH and LINK faucets here: https://docs.chain.link/docs/link-token-contracts/",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"docs.chain.link/samples/APIRequests/APIConsumer.sol": "APIConsumer"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@chainlink/contracts/src/v0.8/Chainlink.sol": {
+			"keccak256": "0xd948e1b24126d8c4acd5578d8f403c23c6fdf5f98f403eedc2587cf874cfe0d1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cdb6f7e1ba09bb57b54cabb5b5ad782c36841851a9b48fb046cafe2dbe6d80c3",
+				"dweb:/ipfs/QmXtURT7XetVUa2fij6VMmtX9kJdqJMN5KkbJyfpxyqBab"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/ChainlinkClient.sol": {
+			"keccak256": "0x3ede49735636eb1ac60706164b9c02f5aae31da54c8920a07ffc11efdbc45e79",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ca8c27c4f58a1b3d4a47a431a0f835b9362aa4a6d2bc9a5c5f745ea30ff66e9c",
+				"dweb:/ipfs/QmPbytewVGr1RgmdXk1MLXnNuDPhukttHDWE5kKsi9dFTq"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol": {
+			"keccak256": "0xa8adfbd0326c982c38ea3808a4da52f0a51807241787c4bd28235bbe86707c04",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://364e3be6190a68fbe84e4ede560af3ccede8d36e40e91378b4de042202c6e86a",
+				"dweb:/ipfs/QmNpCP9j3FhBd1hDofg1uMCYiXBKNTU95n1Lxbnnj12oxw"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol": {
+			"keccak256": "0xd8d9f0bfa3c4a0d4f4ab3450b623521029623b2a347ffcacc06d016eab9628d6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3b20c4061677e9f2f64367d8d4e64b802f6fa7148d1c7a23068ee9bdd0baf7db",
+				"dweb:/ipfs/QmafMfFitQ9KKH27JKpEws4DWBHYySiqqC9eNM7roMWQVY"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/interfaces/OperatorInterface.sol": {
+			"keccak256": "0x3dc245e626e56be2131954e11792bf4b84a20c83110a63b028254aa8909b8fae",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://60e603d11fb1d628bfb6f21086b7966af0659866ab7648dceea249f17ec42bba",
+				"dweb:/ipfs/QmQ2znvsa9YsWoAWGBwMvwzSfZ6a8t5ngzvvc4vUFofT5k"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol": {
+			"keccak256": "0x3a86242e005bad9daf1b4794399a81ba373069355f38c8a07b58e57abc32513a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba8fbc2ccf2b3dfc8249306b7dc63624a4ec6f6ee43649d631f7363710c763b6",
+				"dweb:/ipfs/QmePqh8R8EZMygYkawshsWArTrVA8VCdamLGV6ZZsVJgTz"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/interfaces/PointerInterface.sol": {
+			"keccak256": "0x42e5d62984f9d57bab7e32b2c6e3af86f4feb232ea2af6c822032fae88203bd7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://12ec80973bbc95f59ce3a46aadd7761df6e4131bda14a01a265d76a8e007dd5d",
+				"dweb:/ipfs/QmXwhsxjbkuXSHu6SX6tZxrQCXrdnJ4o2M7b3yFSgcWR1f"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol": {
+			"keccak256": "0x99d0b0786fe368970009c703f2249bfbc56340ddf1a28b60d2915bb58c34cd72",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://af0371c1af45db651823b9a3d5af761b08243c78f105166342eee28de356c8dd",
+				"dweb:/ipfs/QmPnC9qNDKwJFd5unwLb9pxjrutoe8MWjm5EXHTxq2kJ4x"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwnerWithProposal.sol": {
+			"keccak256": "0x215529a99534a40e6257ef2282a91ea4a95b66debc3997866406907622efb405",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ecc56a2cddb1ba6225ca0cffb07fdf6e24bcc4234cc87710c42a59c0a21ae395",
+				"dweb:/ipfs/QmSpW4vkPHeRNZ14beMEk2LEtqY5JQTueNJC4sCT8JaSoc"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/shared/interfaces/IOwnable.sol": {
+			"keccak256": "0x885de72b7b4e4f1bf8ba817a3f2bcc37fd9022d342c4ce76782151c30122d767",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://17c636625a5d29a140612db496d2cca9fb4b48c673adb0fd7b3957d287e75921",
+				"dweb:/ipfs/QmNoBX8TY424bdQWyQC7y3kpKfgxyWxhLw7KEhhEEoBN9q"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol": {
+			"keccak256": "0xac02fbc0c7d194e525a71f524d1f7c472df73e19c2b527d7b529badaeaf0ec51",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://301fa881df623882941bdc7a807807df436c5c7da499fa1a4bbe490738109845",
+				"dweb:/ipfs/QmV2W4NYpe6uk4s34sCyrFJHfPEjYAkvHUposWkXrRNtbj"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol": {
+			"keccak256": "0x89388a631c16ad993e4d76d8d19e08ae98e1397f5dfdfb5f9c0b91015df4cf5d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://88cb96caa94128821daec5478c0f3646902007b81a0604b2e3ab79ea2f40b056",
+				"dweb:/ipfs/Qmd1nu9CpgouPmukNQpZThxKgPZAayXxqBfwbDVHfMrCrF"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/vendor/CBORChainlink.sol": {
+			"keccak256": "0x08bda450d4dc1d17147fd29810234d35e2c437f1a99be733cfa7ee516db08a48",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d47a793b314afe9cd82fcf05ffe4ebbfa5504c2decc83004edbb3b2069d4f0c3",
+				"dweb:/ipfs/Qmd2YLSiS8xeeXqireh6qJgTTwVY2VscZpv2cQBU8gkEJT"
+			]
+		},
+		"@chainlink/contracts/src/v0.8/vendor/ENSResolver.sol": {
+			"keccak256": "0x606bda5f3fa27be4cf04f6636dda443b7787b56e87ade988fca2e51d2147613d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://63b50d13ca97c4dd62738398bb2e423a36563b827b0af94c0e7a47cf0d4a2e6b",
+				"dweb:/ipfs/QmXjy7BmtnPeCLMaMnGGnsxDPGxohfDpYzP8PnUoh6gBGa"
+			]
+		},
+		"docs.chain.link/samples/APIRequests/APIConsumer.sol": {
+			"keccak256": "0x0bd0fc33c36226fd847597833632e1e909807935463c30e36a82f84c3d2838c8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4772b7cda9515237f740398ea96a6fc0bd9945a1e568bf62cc4eebfc9d16fe93",
+				"dweb:/ipfs/QmeVu1ioGTnvYX9nZHy1WC9AHuWbQFQ8362YBcULnKhpED"
+			]
+		}
+	},
+	"version": 1
+}
