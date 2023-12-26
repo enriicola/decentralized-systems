@@ -12,7 +12,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import sc from "@/public/smart.png";
 
 type slide = {
   text: string;
@@ -30,7 +29,7 @@ export default function Home() {
       image: maths,
     },
     {
-      text: "New challenges will be added regularly, each with their own flags. You'll have to figure them out on your own!",
+      text: "New challenges will be added regularly, each with their own flags. You'll have to figure them out on your own! Good luck, and may the best mind win!",
       image: security,
     },
   ];
@@ -38,7 +37,7 @@ export default function Home() {
   return (
     <div className="text-sky-500 text-center">
       <h1 className="my-2">Welcome to SmartChallenge@DIBRIS!</h1>
-      <Carousel className="w-full max-w-lg">
+      <Carousel className="w-full max-w-80 sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
         <CarouselContent>
           {a.map((s: slide, index: number) => (
             <CarouselItem key={index}>
