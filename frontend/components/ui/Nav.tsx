@@ -5,6 +5,10 @@ import { Menu } from "lucide-react";
 import sc from "@/public/smart.png";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/components/context/context";
+//import { UserButton, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import ProfileButton from "@/components/ui/ProfileButton";
 // <Link className={buttonVariants({ variant: "outline" })} href="/">
 // import { buttonVariants } from "@/components/ui/button";
 
@@ -14,6 +18,7 @@ type Link = {
 };
 
 export default function Nav() {
+  const { userAddress } = useUser();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,6 +36,9 @@ export default function Nav() {
       href: "/users/7",
     },
   ];
+
+  //const { user } = useUser();
+  const router = useRouter();
 
   return (
     <nav className="flex justify-between items-center shadow-md fixed top-0 left-0 right-0 bg-white z-10">
@@ -57,7 +65,7 @@ export default function Nav() {
           isOpen ? "flex-1 block" : "hidden"
         }`}
       >
-        <ul className="justify-center items-center space-y-8 md:flex md:space-x-0 md:space-y-0">
+        <ul className="justify-center items-center space-y-8 mr-4 md:flex md:space-x-0 md:space-y-0">
           {links.map((link: Link, index: number) => (
             <li key={index} className="text-gray-600">
               <Link
@@ -68,13 +76,23 @@ export default function Nav() {
                     ? "text-2xl font-medium"
                     : "hover:text-indigo-600 text-base font-light"
                 } mx-4`}
+                /*onClick={(e) => {
+                  if (!user && !auth.isPublicRoute) {
+                    e.preventDefault();
+                    router.push("/sign-in");
+                  }
+                }}*/
               >
                 {link.name}
               </Link>
             </li>
           ))}
+          <li className="justify-center items-center place-items-center"></li>
+          {userAddress && <ProfileButton />}
         </ul>
       </div>
     </nav>
   );
 }
+
+//            <UserButton afterSignOutUrl="/" /> <ProfileButton />

@@ -1,9 +1,14 @@
 "use client";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+//import { SignIn, SignOutButton, UserButton, useUser } from "@clerk/nextjs";
+import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import coding from "@/public/coding.png";
 import maths from "@/public/maths.png";
 import security from "@/public/security.png";
+import { useUser } from "@/components/context/context";
+import { useEffect } from "react";
 
 import {
   Carousel,
@@ -19,6 +24,22 @@ type slide = {
 };
 
 export default function Home() {
+  const { userAddress, setUserAddress } = useUser();
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "eth_accounts" })
+        .then((accounts: string[]) => {
+          if (accounts.length > 0) {
+            // MetaMask is connected
+            console.log("MetaMask is connected: ", accounts[0]);
+            setUserAddress(accounts[0]);
+          }
+        })
+        .catch(console.error);
+    }
+  }, []);
   const a: slide[] = [
     {
       text: "SmartChallenge is an innovative platform designed to test and enhance your skills in coding, mathematics, and security. Our challenges are designed to push your limits and inspire creativity.",
@@ -34,10 +55,12 @@ export default function Home() {
     },
   ];
 
+  //const { user } = useUser();
+
   return (
-    <div className="text-sky-500 text-center">
-      <h1 className="my-2">Welcome to SmartChallenge@DIBRIS!</h1>
-      <Carousel className="w-full max-w-80 sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+    <div className="text-center">
+      <h1 className="text-sky-500 my-2">Welcome to SmartChallenge@DIBRIS!</h1>
+      <Carousel className="w-full max-w-80 sm:max-w-sm md:max-w-md md:mb-4 lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
         <CarouselContent>
           {a.map((s: slide, index: number) => (
             <CarouselItem key={index}>
@@ -60,6 +83,26 @@ export default function Home() {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      {!userAddress && (
+        <Link className={buttonVariants({ variant: "outline" })} href="/login">
+          Connect Wallet to Start!
+        </Link>
+      )}
+      {userAddress && (
+        <Link className={buttonVariants({ variant: "outline" })} href="/login">
+          user: {userAddress}
+        </Link>
+      )}
     </div>
   );
 }
+
+/*
+</Carousel>
+      {!user && (
+        <Link className={buttonVariants({ variant: "outline" })} href="/login">
+          Connect Wallet to Start!
+        </Link>
+      )}
+    </div>
+*/

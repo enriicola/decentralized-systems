@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/ui/Nav";
 import { siteConfig } from "@/config/site";
+//import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
+import { UserContextProvider } from "@/components/context/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,11 +47,26 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Nav />
-        <div className="mx-auto pt-8 flex-grow">
-          <main className="my-0 py-16">{children}</main>
-        </div>
+        <UserContextProvider>
+          <Nav />
+          <div className="mx-auto pt-8 flex-grow">
+            <main className="my-0 py-16">{children}</main>
+          </div>
+          <Toaster />
+        </UserContextProvider>
       </body>
     </html>
   );
 }
+
+/*
+<body className={inter.className}>
+        <userContext.Provider value={[loggedin, setLoggined]}>
+          <ClerkProvider
+            appearance={{
+              elements: {
+                footer: "hidden",
+              },
+            }}
+          >
+*/
