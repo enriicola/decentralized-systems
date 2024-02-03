@@ -34,20 +34,22 @@ export default function LoginPage() {
   const { signedContract, setSignedContract } = useUser();*/
   const { toast } = useToast();
 
-  /*useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum
-        .request({ method: "eth_accounts" })
-        .then((accounts: string[]) => {
-          if (accounts.length > 0) {
-            // MetaMask is connected
-            setUserAddress(accounts[0]);
-            //router.push("/challenges");
-          }
-        })
-        .catch(console.error);
-    }
-  }, []);*/
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum.on("accountsChanged", () => {
+  //       window.ethereum
+  //         .request({ method: "eth_accounts" })
+  //         .then((accounts: string[]) => {
+  //           if (accounts.length > 0) {
+  //             // MetaMask is connected
+  //             setUserAddress(accounts[0]);
+  //             //router.push("/challenges");
+  //           }
+  //         })
+  //         .catch(console.error);
+  //     });
+  //   }
+  // }, []);
 
   const connectMetaMask = async (e: React.MouseEvent) => {
     e.preventDefault();

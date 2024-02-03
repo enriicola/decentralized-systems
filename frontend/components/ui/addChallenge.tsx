@@ -1,20 +1,27 @@
 "use client";
 import { ethers } from "ethers";
 import { useUser } from "@/components/context/context";
+import { useEffect } from "react";
 
 export async function add(userAddress: string) {
-  const address = "0xE62A58CB599ee66E724f84B7D0c7F3fc71eDD462";
-  const abi = await (await fetch("http://localhost:3000/abi.json")).json();
+  const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
+  const abi = await (
+    await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
+  ).json();
+
   let provider = new ethers.BrowserProvider(window.ethereum);
   const contract = new ethers.Contract(address, abi, provider);
-  let user = await provider.getSigner();
+  let user = await provider?.getSigner();
   const SignedContract = new ethers.Contract(address, abi, user);
+  const ownerAddress = await contract.getOwner();
 
   try {
-    let submit = await SignedContract.submitFlag(2, "ciao");
-    const [playerAddresses, playerScores] = await contract.getScores();
-    console.log("Player Addresses:", playerAddresses);
-    console.log("Player Scores:", playerScores);
+    let add = await SignedContract.addChallenge("ciao", 500, "hash");
+    console.log(add);
+    // let submit = await SignedContract.submitFlag(3, "ciao");
+    // const [playerAddresses, playerScores] = await contract.getScores();
+    // console.log("Player Addresses:", playerAddresses);
+    // console.log("Player Scores:", playerScores);
   } catch (error) {
     console.error(error);
   }
@@ -22,6 +29,8 @@ export async function add(userAddress: string) {
 
 export default function AddChallenge(props: any) {
   const { userAddress, setUserAddress } = useUser();
+  console.log("User Address:", userAddress);
+
   return (
     <div className="fixed bottom-7 right-7">
       <button

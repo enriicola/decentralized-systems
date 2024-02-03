@@ -6,6 +6,9 @@ import sc from "@/public/smart.png";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/components/context/context";
+import { useEffect } from "react";
+import { set_cookie } from "@/app/actions/actions";
+import { ethers } from "ethers";
 //import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import ProfileButton from "@/components/ui/ProfileButton";
@@ -18,7 +21,18 @@ type Link = {
 };
 
 export default function Nav() {
-  const { userAddress } = useUser();
+  const { userAddress, setUserAddress } = useUser();
+  /*useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length > 0) {
+          console.log(accounts);
+          setUserAddress(accounts[0]);
+          // Manually refresh or redirect to the desired page
+        }
+      });
+    }
+  }, []);*/
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,9 +50,6 @@ export default function Nav() {
       href: "/users/7",
     },
   ];
-
-  //const { user } = useUser();
-  const router = useRouter();
 
   return (
     <nav className="flex justify-between items-center shadow-md fixed top-0 left-0 right-0 bg-white z-10">
@@ -76,12 +87,6 @@ export default function Nav() {
                     ? "text-2xl font-medium"
                     : "hover:text-indigo-600 text-base font-light"
                 } mx-4`}
-                /*onClick={(e) => {
-                  if (!user && !auth.isPublicRoute) {
-                    e.preventDefault();
-                    router.push("/sign-in");
-                  }
-                }}*/
               >
                 {link.name}
               </Link>

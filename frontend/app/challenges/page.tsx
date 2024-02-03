@@ -1,6 +1,7 @@
 import Challenge from "@/components/ui/challenge";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { useUser } from "@/components/context/context";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 import AddChallenge from "@/components/ui/addChallenge";
@@ -10,8 +11,10 @@ const provider = new ethers.InfuraProvider(
   process.env.INFURA_API_KEY
 );
 
-const address = "0xE62A58CB599ee66E724f84B7D0c7F3fc71eDD462";
-const abi = await (await fetch("http://localhost:3000/abi.json")).json();
+const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
+const abi = await (
+  await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
+).json();
 const contract = new ethers.Contract(address, abi, provider);
 
 export async function getChallenge() {
@@ -19,13 +22,13 @@ export async function getChallenge() {
     cache: "no-store",
   });
 
-  try {
+  /*try {
     const [playerAddresses, playerScores] = await contract.getScores();
     console.log("Player Address:", playerAddresses[0]);
     console.log("Player Score:", playerScores[1]);
   } catch (error) {
     console.error(error);
-  }
+  }*/
 
   const data = await res.json();
   return data as any[];
@@ -35,6 +38,7 @@ export default async function ChallengesPage() {
   if (!cookies().has("userAddress")) {
     redirect("/login");
   } else {
+    let userAddress = cookies().get("userAddress")?.value;
     const challenges = await getChallenge();
     //const challenges = await getChallenge(contract, signedContract);
     return (

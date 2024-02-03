@@ -1,5 +1,6 @@
 "use client";
 import { ethers } from "ethers";
+import { useEffect } from "react";
 import {
   createContext,
   useContext,
@@ -33,6 +34,17 @@ export const UserContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length > 0) {
+          console.log(accounts);
+          setUserAddress(accounts[0]);
+          // Manually refresh or redirect to the desired page
+        }
+      });
+    }
+  }, []);
   const [userAddress, setUserAddress] = useState("");
   /*const [contract, setContract] = useState(
     new ethers.Contract("", [], new ethers.JsonRpcProvider(""))

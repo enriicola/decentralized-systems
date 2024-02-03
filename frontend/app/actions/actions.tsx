@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { ethers } from "ethers";
 
 export async function set_cookie(userAddress: string) {
   cookies().set("userAddress", userAddress);
@@ -13,8 +14,7 @@ export async function delete_cookie() {
 
 /*export async function getChallenge() {
   const provider = new ethers.providers.JsonRpcProvider(
-    "https://rpc-mumbai.maticvigil.com/v1/9a5f1d2a2f8e5d1f8c1f5b3c4e3a1c8b5b4b7c7a/"
-  );
+    process.env.ETHEREUM_NETWORK);
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const contractABI = [
     "function getChallenge(uint256 challengeId) public view returns (string memory challengeName, string memory challengeDescription, string memory challengeFlag, uint256 challengePoints)",

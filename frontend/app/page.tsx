@@ -26,20 +26,18 @@ type slide = {
 export default function Home() {
   const { userAddress, setUserAddress } = useUser();
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (window.ethereum) {
-      window.ethereum
-        .request({ method: "eth_accounts" })
-        .then((accounts: string[]) => {
-          if (accounts.length > 0) {
-            // MetaMask is connected
-            console.log("MetaMask is connected: ", accounts[0]);
-            setUserAddress(accounts[0]);
-          }
-        })
-        .catch(console.error);
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length > 0) {
+          console.log(accounts);
+          setUserAddress(accounts[0]);
+          // Manually refresh or redirect to the desired page
+        }
+      });
     }
-  }, []);
+  }, []);*/
+
   const a: slide[] = [
     {
       text: "SmartChallenge is an innovative platform designed to test and enhance your skills in coding, mathematics, and security. Our challenges are designed to push your limits and inspire creativity.",
@@ -89,7 +87,7 @@ export default function Home() {
         </Link>
       )}
       {userAddress && (
-        <Link className={buttonVariants({ variant: "outline" })} href="/login">
+        <Link className={buttonVariants({ variant: "outline" })} href="/">
           user: {userAddress}
         </Link>
       )}
