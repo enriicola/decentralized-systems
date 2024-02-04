@@ -29,22 +29,21 @@ export async function getChallenge() {
         const cid = pinata + challenge[3];
         const res = await (await fetch(cid, { cache: "no-store" })).json();
         return {
-          key: challenge[0].toString(), // Convert BigInt to string
-          reward: challenge[2],
+          key: challenge[0].toString(),
+          reward: challenge[2].toString(),
           name: res.name,
           description: res.description,
         };
       } else {
         return {
-          key: challenge[0].toString(), // Convert BigInt to string
-          reward: challenge[2],
+          key: challenge[0].toString(),
+          reward: challenge[2].toString(),
           name: "Test Name",
-          description: "Test Description",
+          description: "Decrypt a message encrypted with a Caesar cipher.",
         };
       }
     })
   );
-  console.log(challengeObject[0].reward);
   return challengeObject as any[];
 }
 
@@ -52,8 +51,8 @@ export default async function ChallengesPage() {
   if (!cookies().has("userAddress")) {
     redirect("/login");
   } else {
+    const userAddress = cookies().get("userAddress")?.value;
     const ownerAddress = await contract.getOwner();
-    console.log("Owner Address:", ownerAddress);
     const challenges = await getChallenge();
     //const challenges = await getChallenge(contract, signedContract);
     return (
@@ -64,7 +63,9 @@ export default async function ChallengesPage() {
             return <Challenge key={challenge.key} challenge={challenge} />;
           })}
         </div>
-        <AddChallenge ownerAddress={ownerAddress} />
+        {userAddress?.toLowerCase() === ownerAddress.toLowerCase() && (
+          <AddChallenge />
+        )}
       </div>
     );
   }

@@ -40,11 +40,11 @@ export default function Challenge({ challenge }: any) {
     <div className="mt-5">
       <Card className="mx-auto min-w-12 h-60 w-90 rounded-lg shadow-lg">
         <CardHeader>
-          <CardTitle>{key}</CardTitle>
-          <CardDescription>{reward.toString()}</CardDescription>
+          <CardTitle>{name}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{name}</p>
+          <p>{reward}</p>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Dialog>

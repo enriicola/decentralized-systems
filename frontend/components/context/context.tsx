@@ -1,6 +1,7 @@
 "use client";
 import { ethers } from "ethers";
 import { useEffect } from "react";
+import { set_cookie, get_cookie } from "@/app/actions/actions";
 import {
   createContext,
   useContext,
@@ -8,6 +9,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+import { get } from "http";
 
 interface ContextProps {
   userAddress: string;
@@ -35,12 +37,23 @@ export const UserContextProvider = ({
   children: React.ReactNode;
 }) => {
   useEffect(() => {
+    const get = async () => {
+      let addr = await get_cookie();
+      setUserAddress(addr ?? "");
+    };
+
+    const set = async (addr: string) => {
+      await set_cookie(addr);
+    };
+
+    get();
+
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts: string[]) => {
         if (accounts.length > 0) {
           console.log(accounts);
           setUserAddress(accounts[0]);
-          // Manually refresh or redirect to the desired page
+          set(accounts[0]);
         }
       });
     }

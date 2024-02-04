@@ -8,6 +8,10 @@ export async function set_cookie(userAddress: string) {
   redirect("/challenges");
 }
 
+export async function get_cookie() {
+  return cookies().get("userAddress")?.value;
+}
+
 export async function delete_cookie() {
   cookies().delete("userAddress");
 }

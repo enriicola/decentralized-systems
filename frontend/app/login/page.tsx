@@ -78,7 +78,7 @@ export default function LoginPage() {
     //setContract(contract);
     const SignedContract = new ethers.Contract(address, abi, user);
     //setSignedContract(SignedContract);*/
-    await set_cookie(userAddress);
+    await set_cookie(addr);
   };
 
   return (
