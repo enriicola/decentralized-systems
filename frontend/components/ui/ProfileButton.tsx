@@ -20,17 +20,11 @@ import {
 } from "@/components/ui/dialog";
 
 const ProfileButton = () => {
-  const { setUserAddress } = useUser();
+  const { userAddress } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState();
   const node = useRef<HTMLDivElement>(null);
-
-  const handleSignOut = async () => {
-    setUserAddress("");
-    await delete_cookie();
-    router.push("/");
-  };
 
   const handleImageUpload = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -76,7 +70,7 @@ const ProfileButton = () => {
               <AvatarImage src="https://github.com/shadcn.png" />
             </Avatar>
             <div className="truncate ... whitespace-nowrap font-semibold">
-              0xeF7dd23FE8e8fF730031C342EF9D030e8b2Dd634
+              {userAddress}
             </div>
           </div>
           <Dialog>

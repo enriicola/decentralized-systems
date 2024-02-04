@@ -38,7 +38,8 @@ export default async function ChallengesPage() {
   if (!cookies().has("userAddress")) {
     redirect("/login");
   } else {
-    let userAddress = cookies().get("userAddress")?.value;
+    const ownerAddress = await contract.getOwner();
+    console.log("Owner Address:", ownerAddress);
     const challenges = await getChallenge();
     //const challenges = await getChallenge(contract, signedContract);
     return (
@@ -49,7 +50,7 @@ export default async function ChallengesPage() {
             return <Challenge key={challenge.id} challenge={challenge} />;
           })}
         </div>
-        <AddChallenge />
+        <AddChallenge ownerAddress={ownerAddress} />
       </div>
     );
   }
