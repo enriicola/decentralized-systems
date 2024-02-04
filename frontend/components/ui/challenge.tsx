@@ -35,16 +35,16 @@ import {
 } from "@/components/ui/drawer";
 
 export default function Challenge({ challenge }: any) {
-  const { userId, id, title } = challenge || {};
+  const { key, reward, name, description } = challenge || {};
   return (
     <div className="mt-5">
       <Card className="mx-auto min-w-12 h-60 w-90 rounded-lg shadow-lg">
         <CardHeader>
-          <CardTitle>{id}</CardTitle>
-          <CardDescription>{title}</CardDescription>
+          <CardTitle>{key}</CardTitle>
+          <CardDescription>{reward.toString()}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Card Content</p>
+          <p>{name}</p>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Dialog>
@@ -78,10 +78,8 @@ export default function Challenge({ challenge }: any) {
             <DrawerContent>
               <div className="mx-auto w-full max-w-sm">
                 <DrawerHeader>
-                  <DrawerTitle>Are you sure absolutely sure?</DrawerTitle>
-                  <DrawerDescription>
-                    This action cannot be undone.
-                  </DrawerDescription>
+                  <DrawerTitle>{name}</DrawerTitle>
+                  <DrawerDescription>{description}</DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
                   <Button>Submit</Button>

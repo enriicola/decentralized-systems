@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { useUser } from "@/components/context/context";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +18,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export async function add(flag: string, reward: number) {
+export async function add(
+  name: string,
+  description: string,
+  flag: string,
+  reward: number
+) {
   const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
   const abi = await (
     await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
@@ -28,13 +34,38 @@ export async function add(flag: string, reward: number) {
   let user = await provider?.getSigner();
   const SignedContract = new ethers.Contract(address, abi, user);
 
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxY2ZhYTlkYS0wMzkxLTRkODAtYTk2YS05NjllNmUxZDI2MWMiLCJlbWFpbCI6ImFsaS5oYWlkZXIuaWljMDBAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImUyZTRlODYyYTJlOTdlYWRlZjkwIiwic2NvcGVkS2V5U2VjcmV0IjoiYTZlZmI4MTZmNGZiMzI0MGQ2OGZiNTlhOTA5NjMzOTkzZDU2YTJhMGU0NjQwOTQxMmVlZDc4ZWQ0NzNmODA5NiIsImlhdCI6MTcwNzA3MjA4NH0.355NkcXe1T1Zr1YQYLTYS-yUyrcQ-8aC-oiSNL_XlYk",
+    },
+    body: JSON.stringify({
+      pinataContent: { name: name, description: description },
+      pinataOptions: { cidVersion: 1 },
+      pinataMetadata: { name: "pinnie.json" },
+    }),
+  };
+
+  const response = await (
+    await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", options)
+  ).json();
+
+  /*.then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));*/
+
+  console.log(response.IpfsHash);
+
   try {
-    let add = await SignedContract.addChallenge(flag, reward, "hash");
+    let add = await SignedContract.addChallenge(
+      flag,
+      reward,
+      response.IpfsHash
+    );
     console.log(add);
-    // let submit = await SignedContract.submitFlag(3, "ciao");
-    // const [playerAddresses, playerScores] = await contract.getScores();
-    // console.log("Player Addresses:", playerAddresses);
-    // console.log("Player Scores:", playerScores);
   } catch (error) {
     console.error(error);
   }
@@ -44,6 +75,8 @@ export default function AddChallenge(props: any) {
   const { userAddress, setUserAddress } = useUser();
   const [flag, setFlag] = useState("");
   const [reward, setReward] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   //console.log("User Address:", userAddress);
 
   return (
@@ -71,6 +104,28 @@ export default function AddChallenge(props: any) {
               <Separator />
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    className="col-span-3"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="description" className="text-right">
+                    Description
+                  </Label>
+                  <Input
+                    id="description"
+                    className="col-span-3"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="flag" className="text-right">
                     Flag
                   </Label>
@@ -94,7 +149,10 @@ export default function AddChallenge(props: any) {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={() => add(flag, +reward)} type="submit">
+                <Button
+                  onClick={() => add(name, description, flag, +reward)}
+                  type="submit"
+                >
                   Save changes
                 </Button>
               </DialogFooter>
