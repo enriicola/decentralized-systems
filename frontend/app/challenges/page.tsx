@@ -20,7 +20,7 @@ const abi = await (
 ).json();
 const contract = new ethers.Contract(address, abi, provider);
 
-export async function getChallenge() {
+async function getChallenge() {
   const challenges = await contract.getChallenges();
 
   const pinata =
