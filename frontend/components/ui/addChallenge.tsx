@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
@@ -23,7 +24,8 @@ export async function add(
   description: string,
   flag: string,
   reward: number,
-  category: string
+  category: string,
+  toast: any
 ) {
   const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
   const abi = await (
@@ -54,26 +56,32 @@ export async function add(
     }),
   };
 
-  const response = await (
-    await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", options)
-  ).json();
+  try {
+    const response = await (
+      await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", options)
+    ).json();
+    console.log(response.IpfsHash);
+    try {
+      let add = await SignedContract.addChallenge(
+        flag,
+        reward,
+        response.IpfsHash
+      );
+      toast({
+        title: "Challenge added",
+        description: "The challenge has been added to the platform",
+      });
+      console.log(add);
+    } catch (error) {
+      console.error(error);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 
   /*.then((response) => response.json())
     .then((response) => console.log(response))
     .catch((err) => console.error(err));*/
-
-  console.log(response.IpfsHash);
-
-  try {
-    let add = await SignedContract.addChallenge(
-      flag,
-      reward,
-      response.IpfsHash
-    );
-    console.log(add);
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 export default function AddChallenge() {
@@ -83,6 +91,7 @@ export default function AddChallenge() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const { toast } = useToast();
   //console.log("User Address:", userAddress);
 
   return (
@@ -166,7 +175,9 @@ export default function AddChallenge() {
             </div>
             <DialogFooter>
               <Button
-                onClick={() => add(name, description, flag, +reward, category)}
+                onClick={() =>
+                  add(name, description, flag, +reward, category, toast)
+                }
                 type="submit"
               >
                 Save changes

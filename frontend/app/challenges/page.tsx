@@ -4,6 +4,9 @@ import { cookies } from "next/headers";
 import { useUser } from "@/components/context/context";
 import { useEffect } from "react";
 import { ethers } from "ethers";
+import Loading from "@/app/challenges/loading";
+import { Suspense } from "react";
+
 import AddChallenge from "@/components/ui/addChallenge";
 // https://turquoise-neighbouring-nightingale-673.mypinata.cloud
 const provider = new ethers.InfuraProvider(
@@ -51,21 +54,23 @@ export default async function ChallengesPage() {
   if (!cookies().has("userAddress")) {
     redirect("/login");
   } else {
-    const userAddress = cookies().get("userAddress")?.value;
+    const userAddress = cookies().get("userAddress")!.value;
     const ownerAddress = await contract.getOwner();
     const challenges = await getChallenge();
     //const challenges = await getChallenge(contract, signedContract);
     return (
       <div>
-        <h1 className="text-sky-500 text-center my-4 text-xl">Challenges</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-8">
-          {challenges?.map((challenge) => {
-            return <Challenge key={challenge.key} challenge={challenge} />;
-          })}
-        </div>
-        {userAddress?.toLowerCase() === ownerAddress.toLowerCase() && (
-          <AddChallenge />
-        )}
+        <Suspense fallback={<Loading />}>
+          <h1 className="text-sky-500 text-center my-4 text-xl">Challenges</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-8">
+            {challenges?.map((challenge) => {
+              return <Challenge key={challenge.key} challenge={challenge} />;
+            })}
+          </div>
+          {userAddress?.toLowerCase() === ownerAddress.toLowerCase() && (
+            <AddChallenge />
+          )}
+        </Suspense>
       </div>
     );
   }

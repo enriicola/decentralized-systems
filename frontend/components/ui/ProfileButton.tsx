@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 
 const ProfileButton = () => {
-  const { userAddress } = useUser();
+  const { userAddress, setUserAddress } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState();
@@ -28,6 +28,12 @@ const ProfileButton = () => {
 
   const handleImageUpload = (event: any) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSignOut = () => {
+    delete_cookie();
+    setUserAddress("");
+    router.push("/login");
   };
 
   const handleClickOutside = (e: any) => {
@@ -112,6 +118,13 @@ const ProfileButton = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          <button
+            onClick={handleSignOut}
+            className="flex w-full px-4 py-2 items-center rounded-lg text-sm text-gray-700 hover:bg-gray-100"
+          >
+            <LogOut className="w-4 mr-4 opacity-70" />
+            Sign out
+          </button>
         </div>
       )}
     </div>

@@ -1,6 +1,9 @@
 "use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { ethers } from "ethers";
+import { useToast } from "@/components/ui/use-toast";
 
 import {
   Dialog,
@@ -34,7 +37,31 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 
+export async function submitChallenge(key: number, flag: string, toast: any) {
+  const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
+  const abi = await (
+    await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
+  ).json();
+
+  let provider = new ethers.BrowserProvider(window.ethereum);
+  //const contract = new ethers.Contract(address, abi, provider);
+  let user = await provider?.getSigner();
+  const SignedContract = new ethers.Contract(address, abi, user);
+
+  try {
+    let submit = await SignedContract.submitFlag(key, flag);
+    toast({
+      title: "Challenge submitted",
+      description: "Your challenge has been submitted.",
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default function Challenge({ challenge }: any) {
+  const { toast } = useToast();
+  const [flag, setFlag] = useState("");
   const { key, reward, name, description } = challenge || {};
   return (
     <div className="mt-5">
@@ -63,11 +90,21 @@ export default function Challenge({ challenge }: any) {
                   <Label htmlFor="name" className="text-right">
                     Flag
                   </Label>
-                  <Input id="flag" className="col-span-3" />
+                  <Input
+                    id="flag"
+                    className="col-span-3"
+                    value={flag}
+                    onChange={(e) => setFlag(e.target.value)}
+                  />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Submit</Button>
+                <Button
+                  type="submit"
+                  onClick={() => submitChallenge(key, flag, toast)}
+                >
+                  Submit
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

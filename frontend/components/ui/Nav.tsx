@@ -47,7 +47,7 @@ export default function Nav() {
     },
     {
       name: "Leaderboard",
-      href: "/users/7",
+      href: "/leaderboard",
     },
   ];
 
