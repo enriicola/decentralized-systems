@@ -41,7 +41,7 @@ const Leaderboard = () => {
   }, []);
 
   if (loading) {
-    return <Loading />; // or any other loading indicator
+    return <Loading />;
   } else {
     return (
       <div>
