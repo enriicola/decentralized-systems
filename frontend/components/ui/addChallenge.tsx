@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
+import abi from "@/public/abi.json";
 import {
   Dialog,
   DialogContent,
@@ -28,9 +29,6 @@ export async function add(
   toast: any
 ) {
   const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
-  const abi = await (
-    await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
-  ).json();
 
   let provider = new ethers.BrowserProvider(window.ethereum);
   //const contract = new ethers.Contract(address, abi, provider);

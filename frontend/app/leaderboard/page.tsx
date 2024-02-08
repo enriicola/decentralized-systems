@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import Loading from "@/app/challenges/loading";
 import { Suspense } from "react";
+import abi from "@/public/abi.json";
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -15,10 +16,6 @@ const Leaderboard = () => {
       let provider = new ethers.BrowserProvider(window.ethereum);
 
       let contractAddress = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
-
-      const abi = await (
-        await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
-      ).json();
 
       let contract = new ethers.Contract(contractAddress, abi, provider);
 
