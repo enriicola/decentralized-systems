@@ -16,7 +16,7 @@ const provider = new ethers.InfuraProvider(
 
 const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
 const abi = await (
-  await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
+  await fetch(`${process.env.VERCEL_URL}/abi.json`, { cache: "no-store" })
 ).json();
 const contract = new ethers.Contract(address, abi, provider);
 
