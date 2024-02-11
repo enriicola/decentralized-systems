@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ethers } from "ethers";
 import { useToast } from "@/components/ui/use-toast";
+import { CONTRACT_ADDRESS } from "@/app/constants";
 
 import {
   Dialog,
@@ -38,23 +39,27 @@ import {
 } from "@/components/ui/drawer";
 
 export async function submitChallenge(key: number, flag: string, toast: any) {
-  const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
   const abi = await (
     await fetch("http://localhost:3000/abi.json", { cache: "no-store" })
   ).json();
 
   let provider = new ethers.BrowserProvider(window.ethereum);
-  //const contract = new ethers.Contract(address, abi, provider);
   let user = await provider?.getSigner();
-  const SignedContract = new ethers.Contract(address, abi, user);
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
   try {
     let submit = await SignedContract.submitFlag(key, flag);
     toast({
       title: "Challenge submitted",
       description: "Your challenge has been submitted.",
+      duration: 2000,
     });
-  } catch (error) {
+  } catch (error: any) {
+    toast({
+      title: "Error",
+      description: error.revert.args[0],
+      duration: 2000,
+    });
     console.error(error);
   }
 }

@@ -2,8 +2,8 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import Loading from "@/app/challenges/loading";
-import { Suspense } from "react";
 import abi from "@/public/abi.json";
+import { CONTRACT_ADDRESS } from "@/app/constants";
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -14,10 +14,7 @@ const Leaderboard = () => {
       setLoading(true);
       // Connect to Ethereum provider
       let provider = new ethers.BrowserProvider(window.ethereum);
-
-      let contractAddress = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
-
-      let contract = new ethers.Contract(contractAddress, abi, provider);
+      let contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
       let [addresses, scores] = await contract.getScores();
 

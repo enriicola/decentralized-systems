@@ -1,4 +1,5 @@
 "use client";
+import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
 import { Settings, LogOut } from "lucide-react";
 import { useUser } from "@/components/context/context";
@@ -9,6 +10,10 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { CONTRACT_ADDRESS } from "@/app/constants";
+import abi from "@/public/abi.json"; // TODO:change with the correct abi including the function to modify the profile
+
 import {
   Dialog,
   DialogContent,
@@ -19,12 +24,94 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+export async function getImage(toast: any) {
+  let provider = new ethers.BrowserProvider(window.ethereum);
+  let user = await provider?.getSigner();
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
+  try {
+    const hash = await SignedContract.getPlayer();
+    if (hash !== "") {
+      let image = "https://gateway.pinata.cloud/ipfs/" + hash;
+      return image;
+    }
+  } catch (error: any) {
+    toast({
+      title: "Error",
+      description: error.message,
+      duration: 2000,
+    });
+  }
+  return "https://github.com/shadcn.png";
+}
+
+export async function ModifyProfile(selectedFile: any, toast: any) {
+  let provider = new ethers.BrowserProvider(window.ethereum);
+  let user = await provider?.getSigner();
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
+
+  const data = new FormData();
+  data.append("file", selectedFile);
+  data.append("pinataMetadata", JSON.stringify({ name: "pinnie.json" }));
+  data.append("pinataOptions", JSON.stringify({ cidVersion: 1 }));
+
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxY2ZhYTlkYS0wMzkxLTRkODAtYTk2YS05NjllNmUxZDI2MWMiLCJlbWFpbCI6ImFsaS5oYWlkZXIuaWljMDBAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImUyZTRlODYyYTJlOTdlYWRlZjkwIiwic2NvcGVkS2V5U2VjcmV0IjoiYTZlZmI4MTZmNGZiMzI0MGQ2OGZiNTlhOTA5NjMzOTkzZDU2YTJhMGU0NjQwOTQxMmVlZDc4ZWQ0NzNmODA5NiIsImlhdCI6MTcwNzA3MjA4NH0.355NkcXe1T1Zr1YQYLTYS-yUyrcQ-8aC-oiSNL_XlYk",
+    },
+    body: data,
+  };
+
+  try {
+    const response = await (
+      await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", options)
+    ).json();
+    console.log(response.IpfsHash);
+    try {
+      let add = await SignedContract.updatePlayer(response.IpfsHash);
+      toast({
+        title: "Player modified",
+        description: "The player has been modified successfully",
+      });
+      console.log(add);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        duration: 2000,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const ProfileButton = () => {
+  const toast = useToast();
   const { userAddress, setUserAddress } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState();
   const node = useRef<HTMLDivElement>(null);
+  const [ProfileImg, setProfileImg] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      setProfileImg(await getImage(toast));
+    })();
+
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length > 0) {
+          (async () => {
+            setProfileImg(await getImage(toast));
+          })();
+        }
+      });
+    }
+  }, []);
 
   const handleImageUpload = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -45,25 +132,13 @@ const ProfileButton = () => {
     setIsOpen(false);
   };
 
-  /*useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);*/
-
   return (
     <div className="relative">
       <Avatar
         className="cursor-pointer hover:opacity-75 active:ring-2 active:outline-blue-500"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarImage src={ProfileImg} />
       </Avatar>
 
       {isOpen && (
@@ -73,7 +148,7 @@ const ProfileButton = () => {
         >
           <div className="flex items-center my-4">
             <Avatar className="mr-4">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={ProfileImg} />
             </Avatar>
             <div className="truncate ... whitespace-nowrap font-semibold">
               {userAddress}
@@ -96,25 +171,24 @@ const ProfileButton = () => {
               <Separator />
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input id="name" placeholder="Ali" className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="profile-picture" className="text-right">
                     Profile image:
                   </Label>
                   <Input
                     type="file"
-                    id="rofile-picture"
+                    id="profile-picture"
                     onChange={handleImageUpload}
                     className="col-span-3"
                   />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                <Button
+                  type="submit"
+                  onClick={() => ModifyProfile(selectedFile, toast)}
+                >
+                  Save changes
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

@@ -1,5 +1,32 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_flag",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_reward",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_hash",
+        "type": "string"
+      }
+    ],
+    "name": "addChallenge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -52,11 +79,31 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_flag", "type": "string" },
-      { "internalType": "uint256", "name": "_reward", "type": "uint256" },
-      { "internalType": "string", "name": "_hash", "type": "string" }
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_flag",
+        "type": "string"
+      }
     ],
-    "name": "addChallenge",
+    "name": "submitFlag",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_hash",
+        "type": "string"
+      }
+    ],
+    "name": "updatePlayer",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -64,18 +111,46 @@
   {
     "inputs": [],
     "name": "challengeCounter",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "challenges",
     "outputs": [
-      { "internalType": "uint256", "name": "challengeId", "type": "uint256" },
-      { "internalType": "bytes32", "name": "flagHash", "type": "bytes32" },
-      { "internalType": "uint256", "name": "reward", "type": "uint256" },
-      { "internalType": "string", "name": "hash", "type": "string" }
+      {
+        "internalType": "uint256",
+        "name": "challengeId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "flagHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -91,9 +166,21 @@
             "name": "challengeId",
             "type": "uint256"
           },
-          { "internalType": "bytes32", "name": "flagHash", "type": "bytes32" },
-          { "internalType": "uint256", "name": "reward", "type": "uint256" },
-          { "internalType": "string", "name": "hash", "type": "string" }
+          {
+            "internalType": "bytes32",
+            "name": "flagHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "reward",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "hash",
+            "type": "string"
+          }
         ],
         "internalType": "struct SmartChallenge.Challenge[]",
         "name": "",
@@ -106,7 +193,26 @@
   {
     "inputs": [],
     "name": "getOwner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPlayer",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -114,17 +220,31 @@
     "inputs": [],
     "name": "getPlayers",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_player", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_player",
+        "type": "address"
+      }
     ],
     "name": "getScore",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -132,54 +252,103 @@
     "inputs": [],
     "name": "getScores",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "playerAddress", "type": "address" },
-      { "internalType": "uint256", "name": "challengeIndex", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "playerAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "challengeIndex",
+        "type": "uint256"
+      }
     ],
     "name": "getSolvedChallenge",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "playerAddresses",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "players",
     "outputs": [
-      { "internalType": "bool", "name": "isRegistered", "type": "bool" },
-      { "internalType": "uint256", "name": "score", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_challengeId", "type": "uint256" },
-      { "internalType": "string", "name": "_flag", "type": "string" }
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    "name": "submitFlag",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "playerAddresses",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "players",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isRegistered",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "score",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

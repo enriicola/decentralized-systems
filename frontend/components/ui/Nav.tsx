@@ -22,17 +22,6 @@ type Link = {
 
 export default function Nav() {
   const { userAddress, setUserAddress } = useUser();
-  /*useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        if (accounts.length > 0) {
-          console.log(accounts);
-          setUserAddress(accounts[0]);
-          // Manually refresh or redirect to the desired page
-        }
-      });
-    }
-  }, []);*/
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 

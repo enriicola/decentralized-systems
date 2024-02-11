@@ -1,11 +1,10 @@
 import Challenge from "@/components/ui/challenge";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { useUser } from "@/components/context/context";
-import { useEffect } from "react";
 import { ethers } from "ethers";
 import Loading from "@/app/challenges/loading";
 import abi from "@/public/abi.json";
+import { CONTRACT_ADDRESS } from "@/app/constants";
 import { Suspense } from "react";
 
 import AddChallenge from "@/components/ui/addChallenge";
@@ -15,14 +14,11 @@ const provider = new ethers.InfuraProvider(
   process.env.INFURA_API_KEY
 );
 
-const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
-const contract = new ethers.Contract(address, abi, provider);
+const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
 async function getChallenge() {
   const challenges = await contract.getChallenges();
-
-  const pinata =
-    "https://turquoise-neighbouring-nightingale-673.mypinata.cloud/ipfs/";
+  const pinata = "https://gateway.pinata.cloud/ipfs/";
 
   let challengeObject = await Promise.all(
     challenges.map(async (challenge: any[]) => {

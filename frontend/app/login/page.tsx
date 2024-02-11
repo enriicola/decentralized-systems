@@ -65,6 +65,7 @@ export default function LoginPage() {
       toast({
         title: "MetaMask not installed. Using read-only defaults.",
         description: "Install MetaMask to continue",
+        duration: 2000,
       });
       user = ethers.getDefaultProvider("mainnet");
     }

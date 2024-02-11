@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
+import { CONTRACT_ADDRESS } from "@/app/constants";
 import abi from "@/public/abi.json";
 import {
   Dialog,
@@ -28,12 +29,10 @@ export async function add(
   category: string,
   toast: any
 ) {
-  const address = "0x25464Ce44Ab67EB7f6954e362eF8271E4a6F5c55";
-
   let provider = new ethers.BrowserProvider(window.ethereum);
-  //const contract = new ethers.Contract(address, abi, provider);
+  //const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
   let user = await provider?.getSigner();
-  const SignedContract = new ethers.Contract(address, abi, user);
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
   const options = {
     method: "POST",
@@ -70,8 +69,12 @@ export async function add(
         description: "The challenge has been added to the platform",
       });
       console.log(add);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.revert.args[0],
+        duration: 2000,
+      });
     }
   } catch (error) {
     console.error(error);
