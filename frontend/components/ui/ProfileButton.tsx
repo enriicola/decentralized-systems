@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { CONTRACT_ADDRESS } from "@/app/constants";
+import "dotenv/config";
 import abi from "@/public/abi.json"; // TODO:change with the correct abi including the function to modify the profile
 
 import {
@@ -46,8 +47,13 @@ export async function getImage(toast: any) {
 
 export async function ModifyProfile(selectedFile: any, toast: any) {
   let provider = new ethers.BrowserProvider(window.ethereum);
-  let user = await provider?.getSigner();
-  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
+  //let user = await provider?.getSigner();
+  const owner = process.env.OWNER_SK;
+  if (!owner) {
+    throw new Error("OWNER_SK is not defined");
+  }
+  const signer = new ethers.Wallet(owner, provider);
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
   const data = new FormData();
   data.append("file", selectedFile);
@@ -75,7 +81,6 @@ export async function ModifyProfile(selectedFile: any, toast: any) {
         title: "Player modified",
         description: "The player has been modified successfully",
       });
-      console.log(add);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -89,7 +94,7 @@ export async function ModifyProfile(selectedFile: any, toast: any) {
 }
 
 const ProfileButton = () => {
-  const toast = useToast();
+  const { toast } = useToast();
   const { userAddress, setUserAddress } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
