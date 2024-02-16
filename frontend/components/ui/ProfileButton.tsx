@@ -47,13 +47,17 @@ export async function getImage(toast: any) {
 
 export async function ModifyProfile(selectedFile: any, toast: any) {
   let provider = new ethers.BrowserProvider(window.ethereum);
-  //let user = await provider?.getSigner();
+  let user = await provider?.getSigner();
+
+  // TODO: To use the owner's SK use this
+  /*
   const owner = process.env.OWNER_SK;
   if (!owner) {
     throw new Error("OWNER_SK is not defined");
   }
-  const signer = new ethers.Wallet(owner, provider);
-  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+  const signer = new ethers.Wallet(owner, provider);*/
+
+  const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
   const data = new FormData();
   data.append("file", selectedFile);

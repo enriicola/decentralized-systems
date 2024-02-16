@@ -33,8 +33,8 @@ async function getChallenge() {
         };
       } else {
         return {
-          key: challenge[0].toString(),
-          reward: challenge[2].toString(),
+          key: Number(challenge[0]),
+          reward: Number(challenge[2]),
           name: "Test Name",
           description: "Decrypt a message encrypted with a Caesar cipher.",
         };

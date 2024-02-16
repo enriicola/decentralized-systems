@@ -113,9 +113,9 @@
     "name": "challengeCounter",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint32"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -137,9 +137,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "string",
+        "internalType": "bytes32",
         "name": "flagHash",
-        "type": "string"
+        "type": "bytes32"
       },
       {
         "internalType": "uint256",
@@ -167,9 +167,9 @@
             "type": "uint256"
           },
           {
-            "internalType": "string",
+            "internalType": "bytes32",
             "name": "flagHash",
-            "type": "string"
+            "type": "bytes32"
           },
           {
             "internalType": "uint256",
