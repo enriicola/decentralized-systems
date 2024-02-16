@@ -2,28 +2,20 @@ const API_KEY = "your_api_key_here";
 
 type Challenge = {
   id: number;
-  name: string;
-  description: string;
   flag: string;
-  solutions: string[];
+  solutions: string;
 };
 
 let challenges: Challenge[] = [
   {
-    id: 1,
-    name: "Challenge 1",
-    description:
-      "This is the first challenge. It's an easy one to get you started.",
+    id: 101,
     flag: "FLAG{this_is_the_first_flag}",
-    solutions: ["Solution 1", "Solution 2"],
+    solutions: "Solution 1",
   },
   {
-    id: 2,
-    name: "Challenge 2",
-    description:
-      "This challenge is a bit harder. You'll need to think outside the box.",
+    id: 201,
     flag: "FLAG{this_is_the_second_flag}",
-    solutions: ["Solution 3", "Solution 4"],
+    solutions: "Solution 3",
   },
 ];
 

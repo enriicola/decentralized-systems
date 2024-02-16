@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { CONTRACT_ADDRESS } from "@/app/constants";
 import abi from "@/public/abi.json";
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -21,12 +22,40 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+const apiUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000/api"
+    : "https://smartchallenge.vercel.app/api";
+
+// call the api to save the flag in clear in the API instead of the contract that contains the hash
+export async function saveFlag(id: Number, flag: string, solution: string) {
+  try {
+    const response = await axios.post(
+      `${apiUrl}`,
+      {
+        id: Number(id),
+        flag: flag,
+        solution: solution,
+      },
+      {
+        headers: {
+          "api-key": "your_api_key_here",
+        },
+      }
+    );
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function add(
   name: string,
   description: string,
   flag: string,
-  reward: number,
+  reward: Number,
   category: string,
+  solution: string,
   toast: any
 ) {
   let provider = new ethers.BrowserProvider(window.ethereum);
@@ -58,9 +87,12 @@ export async function add(
       await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", options)
     ).json();
     console.log(response.IpfsHash);
+
     try {
+      const encodedFlag = ethers.keccak256(ethers.toUtf8Bytes(flag));
+      //console.log(encodedFlag);
       let add = await SignedContract.addChallenge(
-        flag,
+        encodedFlag,
         reward,
         response.IpfsHash
       );
@@ -69,6 +101,15 @@ export async function add(
         description: "The challenge has been added to the platform",
       });
       console.log(add);
+      try {
+        SignedContract.challengeCounter().then((id) => {
+          // save flag and solution in the API in clear
+          saveFlag(id, flag, solution);
+        });
+        console.log("Flag and solution saved in the API");
+      } catch (error) {
+        console.error("Challenge counter error -> ", error);
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -92,6 +133,7 @@ export default function AddChallenge() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [solution, setSolution] = useState("");
   const { toast } = useToast();
   //console.log("User Address:", userAddress);
 
@@ -173,11 +215,30 @@ export default function AddChallenge() {
                   onChange={(e) => setReward(e.target.value)}
                 />
               </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="solution" className="text-right">
+                  Solution
+                </Label>
+                <Input
+                  id="solution"
+                  className="col-span-3"
+                  value={solution}
+                  onChange={(e) => setSolution(e.target.value)}
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button
                 onClick={() =>
-                  add(name, description, flag, +reward, category, toast)
+                  add(
+                    name,
+                    description,
+                    flag,
+                    +reward,
+                    category,
+                    solution,
+                    toast
+                  )
                 }
                 type="submit"
               >
