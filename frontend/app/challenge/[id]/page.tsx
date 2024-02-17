@@ -1,14 +1,11 @@
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { ethers } from "ethers";
 import Loading from "@/app/challenges/loading";
 import abi from "@/public/abi.json";
 import { CONTRACT_ADDRESS } from "@/app/constants";
 import { Suspense } from "react";
-
 import InvisibleDiv from "@/components/ui/InvisibleDiv";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import InjectionForm from "@/components/ui/InjectionForm";
 
 const apiUrl =
   process.env.NODE_ENV === "development"
@@ -22,13 +19,13 @@ const provider = new ethers.InfuraProvider(
 
 const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
-
 async function getChallengeByID(id: string) {
     const challenges = await contract.getChallenges();
     const pinata = "https://gateway.pinata.cloud/ipfs/";
     try {
         const challengeObject = await Promise.all(
             challenges.map(async (challenge: any[]) => {
+                // we retrieve the challenge information by its id
                 if (challenge[0].toString() === id) {
                     if (challenge[3] !== "hash") {
                         const cid = pinata + challenge[3];
@@ -56,15 +53,20 @@ async function getChallengeByID(id: string) {
     }
 }
 
-export async function getChallengeContent(challenge: any[]) {
+function getChallengeContent(challenge: any[]) {
     let content; // Declare the 'content' variable
-    const challengeKey = challenge.map((c) => c.key); // Get the challenge key
+    const challengeKey = Number(challenge.map((c) => c.key)); // Convert the challenge key to a number
     const challengeName = challenge.map((c) => c.name).toString(); // Get the challenge name
     // NOTE: can be done also by ids but for now we will use the name
     switch (challengeName) {
         case "What\'s hidden here?": // Replace "value" with a valid case value
             // Add your code here for the valid case
             content = <InvisibleDiv challengeKey={challengeKey} apiUrl={apiUrl} />; // Set the 'content' variable to the JSX element 
+            break; // Add a break statement after each case
+
+        case "SQL injection": // Replace "value" with a valid case value
+            // Add your code here for the valid case
+            content = <InjectionForm challengeKey={challengeKey} apiUrl={apiUrl} />; // Set the 'content' variable to the JSX element
             break; // Add a break statement after each case
 
         default:
@@ -79,6 +81,7 @@ export async function getChallengeContent(challenge: any[]) {
 export default async function Challenge({ params }: { params: { id: string } }) {
     const challenge = await getChallengeByID(params.id) || []; // Provide a default value for challenge
     const content = getChallengeContent(challenge);
+
     return (
         <div>
             <Suspense fallback={<Loading />}>

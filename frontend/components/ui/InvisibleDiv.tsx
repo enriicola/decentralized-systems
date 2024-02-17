@@ -3,26 +3,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 
-import axios from "axios";
-
-async function getChallengeFlag(id: Number, apiUrl: string) {
-    try {
-        const response = await axios.get(
-            apiUrl,
-            {
-                params: {
-                    id: Number(id),
-                },
-                headers: {
-                    "api-key": "your_api_key_here",
-                },
-            }
-        );
-        return response.data.flag;
-    } catch (error) {
-        console.error(error);
-    }
-}
+import { getChallengeFlag } from "@/app/actions/user_actions";
 
 export default function InvisibleDiv({ challengeKey, apiUrl }: { challengeKey: Number, apiUrl: string }) {
     const [flag, setFlag] = React.useState<string | null>(null);

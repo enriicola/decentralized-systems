@@ -3,19 +3,24 @@ const API_KEY = "your_api_key_here";
 type Challenge = {
   id: number;
   flag: string;
-  solutions: string;
+  solution: string;
 };
 
 let challenges: Challenge[] = [
   {
     id: 0,
     flag: "FLAG{first_flag}",
-    solutions: "Solution 1",
+    solution: "Solution 1",
   },
   {
-    id: 201,
-    flag: "FLAG{this_is_the_second_flag}",
-    solutions: "Solution 3",
+    id: 1,
+    flag: "FLAG{second_flag}",
+    solution: "another solution",
+  },
+  {
+    id: 2,
+    flag: "FLAG{second_flag}",
+    solution: "'OR 1=1 --",
   },
 ];
 

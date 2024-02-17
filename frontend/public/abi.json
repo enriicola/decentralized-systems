@@ -1,28 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_flag",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_reward",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_hash",
-        "type": "string"
-      }
-    ],
-    "name": "addChallenge",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -80,30 +57,22 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_challengeId",
-        "type": "uint256"
-      },
-      {
         "internalType": "string",
         "name": "_flag",
         "type": "string"
-      }
-    ],
-    "name": "submitFlag",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
+      {
+        "internalType": "uint256",
+        "name": "_reward",
+        "type": "uint256"
+      },
       {
         "internalType": "string",
         "name": "_hash",
         "type": "string"
       }
     ],
-    "name": "updatePlayer",
+    "name": "addChallenge",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -349,6 +318,37 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_flag",
+        "type": "string"
+      }
+    ],
+    "name": "submitFlag",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_hash",
+        "type": "string"
+      }
+    ],
+    "name": "updatePlayer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
