@@ -1,7 +1,30 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_flag",
+        "type": "string"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_reward",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "_hash",
+        "type": "string"
+      }
+    ],
+    "name": "addChallenge",
+    "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "payable",
     "type": "constructor"
   },
   {
@@ -39,42 +62,51 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "player",
-        "type": "address"
-      },
-      {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "_challenge",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "returnValue",
+        "type": "string"
       }
     ],
-    "name": "ChallengeCompleted",
+    "name": "ChallengeSubmitted",
     "type": "event"
   },
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      },
+      {
         "internalType": "string",
         "name": "_flag",
         "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_reward",
-        "type": "uint256"
-      },
+      }
+    ],
+    "name": "submitFlag",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "string",
         "name": "_hash",
         "type": "string"
       }
     ],
-    "name": "addChallenge",
+    "name": "updatePlayer",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -111,14 +143,27 @@
         "type": "string"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint8",
         "name": "reward",
-        "type": "uint256"
+        "type": "uint8"
       },
       {
         "internalType": "string",
         "name": "hash",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "costFlagSend",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -141,9 +186,9 @@
             "type": "string"
           },
           {
-            "internalType": "uint256",
+            "internalType": "uint8",
             "name": "reward",
-            "type": "uint256"
+            "type": "uint8"
           },
           {
             "internalType": "string",
@@ -260,19 +305,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -318,37 +350,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_challengeId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_flag",
-        "type": "string"
-      }
-    ],
-    "name": "submitFlag",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_hash",
-        "type": "string"
-      }
-    ],
-    "name": "updatePlayer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

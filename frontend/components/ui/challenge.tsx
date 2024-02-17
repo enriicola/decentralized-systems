@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { CONTRACT_ADDRESS } from "@/app/constants";
 import abi from "@/public/abi.json";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 import {
   Dialog,
@@ -39,20 +40,27 @@ import {
   DrawerTrigger,
   DrawerFooter,
 } from "@/components/ui/drawer";
+import { Angry } from "lucide-react";
 
 export async function submitChallenge(key: number, flag: string, toast: any) {
   let provider = new ethers.BrowserProvider(window.ethereum);
   let user = await provider?.getSigner();
   const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
-  try {
-    const encodedFlag = ethers.keccak256(ethers.toUtf8Bytes(flag));
-    let submit = await SignedContract.submitFlag(key, encodedFlag);
+  SignedContract.on("ChallengeSubmitted", (value: string) => {
     toast({
       title: "Challenge submitted",
-      description: "Your challenge has been submitted.",
+      description: value,
       duration: 2000,
     });
+  });
+
+  try {
+    const encodedFlag = ethers.keccak256(ethers.toUtf8Bytes(flag));
+    let submit = await SignedContract.submitFlag(key, encodedFlag, {
+      value: ethers.parseEther("0.000000000000000001"),
+    });
+    let receipt = await submit.wait();
   } catch (error: any) {
     toast({
       title: "Error",
@@ -70,7 +78,7 @@ export default function Challenge({ challenge }: any) {
   return (
     <div className="mt-5">
       <Card className="mx-auto min-w-12 h-60 w-90 rounded-lg shadow-lg">
-        <CardHeader>
+        <CardHeader className="mt-3">
           <CardTitle>{name}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
@@ -112,11 +120,26 @@ export default function Challenge({ challenge }: any) {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Drawer>
+          <Link
+            className={
+              buttonVariants({ variant: "outline" }) +
+              " bg-black text-white hover:bg-slate-800 hover:text-white"
+            }
+            href={`/challenge/${key}`}
+          >
+            Start
+          </Link>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
+/*
+<Drawer>
             <DrawerTrigger asChild>
               <Button>Start</Button>
             </DrawerTrigger>
-            
 
             <DrawerContent>
               <div className="mx-auto w-full max-w-sm">
@@ -125,7 +148,12 @@ export default function Challenge({ challenge }: any) {
                   <DrawerDescription>{description}</DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
-                  <Link className="rounded border bg-blue-500 text-white px-4 py-2" href={`/challenge/${key}`}>Start</Link>
+                  <Link
+                    className="rounded border bg-blue-500 text-white px-4 py-2"
+                    href={`/challenge/${key}`}
+                  >
+                    Start
+                  </Link>
                   <DrawerClose asChild>
                     <Button variant="outline">Cancel</Button>
                   </DrawerClose>
@@ -133,8 +161,4 @@ export default function Challenge({ challenge }: any) {
               </div>
             </DrawerContent>
           </Drawer>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-}
+*/

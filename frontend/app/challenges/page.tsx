@@ -9,6 +9,7 @@ import { Suspense } from "react";
 
 import AddChallenge from "@/components/ui/addChallenge";
 // https://turquoise-neighbouring-nightingale-673.mypinata.cloud
+// https://gateway.pinata.cloud/ipfs/
 const provider = new ethers.InfuraProvider(
   process.env.ETHEREUM_NETWORK,
   process.env.INFURA_API_KEY
@@ -18,31 +19,26 @@ const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
 async function getChallenge() {
   const challenges = await contract.getChallenges();
-  const pinata = "https://gateway.pinata.cloud/ipfs/";
+  const pinata =
+    "https://turquoise-neighbouring-nightingale-673.mypinata.cloud/ipfs/";
   try {
     const challengeObject = await Promise.all(
       challenges.map(async (challenge: any[]) => {
-        if (challenge[3] !== "hash") {
-          const cid = pinata + challenge[3];
-          const res = await (await fetch(cid, { cache: "no-store" })).json();
-          return {
-            key: challenge[0].toString(),
-            reward: challenge[2].toString(),
-            name: res.name,
-            description: res.description,
-          };
-        } else {
-          return {
-            key: Number(challenge[0]),
-            reward: Number(challenge[2]),
-            name: "Test Name",
-            description: "Decrypt a message encrypted with a Caesar cipher.",
-          };
-        }
+        const cid = pinata + challenge[3];
+        const res = await (await fetch(cid, { cache: "no-store" })).json();
+        return {
+          key: Number(challenge[0]),
+          reward: Number(challenge[2]),
+          name: res.name,
+          description: res.description,
+          category: res.category,
+        };
       })
     );
     return challengeObject as any[];
-  } catch (error) { console.log(error); }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default async function ChallengesPage() {
