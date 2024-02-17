@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import { useToast } from "@/components/ui/use-toast";
 import { CONTRACT_ADDRESS } from "@/app/constants";
 import abi from "@/public/abi.json";
+import Link from "next/link";
 
 import {
   Dialog,
@@ -115,6 +116,8 @@ export default function Challenge({ challenge }: any) {
             <DrawerTrigger asChild>
               <Button>Start</Button>
             </DrawerTrigger>
+            
+
             <DrawerContent>
               <div className="mx-auto w-full max-w-sm">
                 <DrawerHeader>
@@ -122,7 +125,7 @@ export default function Challenge({ challenge }: any) {
                   <DrawerDescription>{description}</DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
-                  <Button>Submit</Button>
+                  <Link className="rounded border bg-blue-500 text-white px-4 py-2" href={`/challenge/${key}`}>Start</Link>
                   <DrawerClose asChild>
                     <Button variant="outline">Cancel</Button>
                   </DrawerClose>

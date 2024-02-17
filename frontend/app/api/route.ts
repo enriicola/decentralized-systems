@@ -8,8 +8,8 @@ type Challenge = {
 
 let challenges: Challenge[] = [
   {
-    id: 101,
-    flag: "FLAG{this_is_the_first_flag}",
+    id: 0,
+    flag: "FLAG{first_flag}",
     solutions: "Solution 1",
   },
   {

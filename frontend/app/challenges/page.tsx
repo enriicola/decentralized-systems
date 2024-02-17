@@ -19,29 +19,30 @@ const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 async function getChallenge() {
   const challenges = await contract.getChallenges();
   const pinata = "https://gateway.pinata.cloud/ipfs/";
-
-  let challengeObject = await Promise.all(
-    challenges.map(async (challenge: any[]) => {
-      if (challenge[3] !== "hash") {
-        const cid = pinata + challenge[3];
-        const res = await (await fetch(cid, { cache: "no-store" })).json();
-        return {
-          key: challenge[0].toString(),
-          reward: challenge[2].toString(),
-          name: res.name,
-          description: res.description,
-        };
-      } else {
-        return {
-          key: Number(challenge[0]),
-          reward: Number(challenge[2]),
-          name: "Test Name",
-          description: "Decrypt a message encrypted with a Caesar cipher.",
-        };
-      }
-    })
-  );
-  return challengeObject as any[];
+  try {
+    const challengeObject = await Promise.all(
+      challenges.map(async (challenge: any[]) => {
+        if (challenge[3] !== "hash") {
+          const cid = pinata + challenge[3];
+          const res = await (await fetch(cid, { cache: "no-store" })).json();
+          return {
+            key: challenge[0].toString(),
+            reward: challenge[2].toString(),
+            name: res.name,
+            description: res.description,
+          };
+        } else {
+          return {
+            key: Number(challenge[0]),
+            reward: Number(challenge[2]),
+            name: "Test Name",
+            description: "Decrypt a message encrypted with a Caesar cipher.",
+          };
+        }
+      })
+    );
+    return challengeObject as any[];
+  } catch (error) { console.log(error); }
 }
 
 export default async function ChallengesPage() {
