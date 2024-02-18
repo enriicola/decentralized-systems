@@ -55,6 +55,7 @@ export async function add(
   flag: string,
   reward: Number,
   category: string,
+  problem: string,
   solution: string,
   toast: any
 ) {
@@ -76,6 +77,7 @@ export async function add(
         name: name,
         description: description,
         category: category,
+        problem: problem,
       },
       pinataOptions: { cidVersion: 1 },
       pinataMetadata: { name: "pinnie.json" },
@@ -102,11 +104,11 @@ export async function add(
       });
       console.log(add);
       try {
-        SignedContract.challengeCounter().then((id) => {
+        SignedContract.challengeCounter().then(async (id) => {
           // save flag and solution in the API in clear
-          saveFlag(id, flag, solution);
+          await saveFlag(id, flag, solution);
+          console.log("Flag and solution saved in the API");
         });
-        console.log("Flag and solution saved in the API");
       } catch (error) {
         console.error("Challenge counter error -> ", error);
       }
@@ -133,6 +135,7 @@ export default function AddChallenge() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [problem, setProblem] = useState("");
   const [solution, setSolution] = useState("");
   const { toast } = useToast();
   //console.log("User Address:", userAddress);
@@ -217,6 +220,17 @@ export default function AddChallenge() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="solution" className="text-right">
+                  Problem
+                </Label>
+                <Input
+                  id="problem"
+                  className="col-span-3"
+                  value={problem}
+                  onChange={(e) => setProblem(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="solution" className="text-right">
                   Solution
                 </Label>
                 <Input
@@ -236,6 +250,7 @@ export default function AddChallenge() {
                     flag,
                     +reward,
                     category,
+                    problem,
                     solution,
                     toast
                   )

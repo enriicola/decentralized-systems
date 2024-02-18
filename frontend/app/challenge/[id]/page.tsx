@@ -6,14 +6,6 @@ import { Suspense } from "react";
 import InvisibleDiv from "@/components/ui/InvisibleDiv";
 import Link from "next/link";
 import SubmissionForm from "@/components/ui/SubmissionForm";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
 
 const apiUrl =
   process.env.NODE_ENV === "development"
@@ -44,6 +36,7 @@ async function getChallengeByID(id: string) {
             name: res.name,
             description: res.description,
             category: res.category,
+            problem: res.problem,
           };
         }
       })
@@ -57,22 +50,52 @@ async function getChallengeByID(id: string) {
 function getChallengeContent(challenge: any[]) {
   let content;
   const challengeKey = Number(challenge.map((c) => c.key));
+  const challengeName = challenge.map((c) => c.name).toString();
   const challengeCategory = challenge.map((c) => c.category).toString();
+  const ChallengeProblem = challenge.map((c) => c.problem).toString();
   switch (challengeCategory) {
     case "Web":
-      content = <InvisibleDiv challengeKey={challengeKey} apiUrl={apiUrl} />;
+      content = (
+        <InvisibleDiv
+          challengeKey={challengeKey}
+          name={challengeName}
+          problem={ChallengeProblem}
+          apiUrl={apiUrl}
+        />
+      );
       break;
 
-    case "SQL injection":
-      content = <SubmissionForm challengeKey={challengeKey} apiUrl={apiUrl} />;
+    case "SQL Injection":
+      content = (
+        <SubmissionForm
+          challengeKey={challengeKey}
+          name={challengeName}
+          problem={ChallengeProblem}
+          apiUrl={apiUrl}
+        />
+      );
       break;
 
     case "Maths":
-      content = <SubmissionForm challengeKey={challengeKey} apiUrl={apiUrl} />;
+      content = (
+        <SubmissionForm
+          challengeKey={challengeKey}
+          name={challengeName}
+          problem={ChallengeProblem}
+          apiUrl={apiUrl}
+        />
+      );
       break;
 
     case "Coding":
-      content = <SubmissionForm challengeKey={challengeKey} apiUrl={apiUrl} />;
+      content = (
+        <SubmissionForm
+          challengeKey={challengeKey}
+          name={challengeName}
+          problem={ChallengeProblem}
+          apiUrl={apiUrl}
+        />
+      );
       break;
 
     default:
@@ -98,19 +121,9 @@ export default async function Challenge({
             <h1 className="text-sky-500 text-center my-4 text-xl">
               {challenge.map((c) => c.key).toString()}
             </h1>
-            <div className="justify-center">
-              {challenge.map((c) => (
-                <Card
-                  key={c.key}
-                  className="mx-auto min-w-80 min-h-32 flex flex-wrap items-center justify-center w-90 rounded-lg shadow-lg"
-                >
-                  <CardHeader>
-                    <CardTitle>{c.name}</CardTitle>
-                    <CardDescription>{c.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
+            <h1 className="text-sky-500 text-center my-4 text-2xl">
+              {challenge.map((c) => c.description).toString()}
+            </h1>
             {content}
           </>
         )}

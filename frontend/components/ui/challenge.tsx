@@ -8,7 +8,8 @@ import { CONTRACT_ADDRESS } from "@/app/constants";
 import abi from "@/public/abi.json";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-
+import { useUser } from "@/components/context/context";
+import { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,24 +31,21 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-  DrawerFooter,
-} from "@/components/ui/drawer";
-import { Angry } from "lucide-react";
-
-export async function submitChallenge(key: number, flag: string, toast: any) {
+export async function submitChallenge(
+  key: number,
+  flag: string,
+  toast: any,
+  reward: string
+) {
   let provider = new ethers.BrowserProvider(window.ethereum);
   let user = await provider?.getSigner();
   const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
   SignedContract.on("ChallengeSubmitted", (value: string) => {
+    if (value.includes("Correct answer")) {
+      value += " You have earned : " + reward + " wei";
+    }
+
     toast({
       title: "Challenge submitted",
       description: value,
@@ -71,13 +69,17 @@ export async function submitChallenge(key: number, flag: string, toast: any) {
   }
 }
 
-export default function Challenge({ challenge }: any) {
+export default function Challenge({ challenge, isSolved }: any) {
   const { toast } = useToast();
   const [flag, setFlag] = useState("");
   const { key, reward, name, description } = challenge || {};
   return (
     <div className="mt-5">
-      <Card className="mx-auto min-w-12 h-60 w-90 rounded-lg shadow-lg">
+      {isSolved}
+      <Card
+        className="mx-auto min-w-12 h-60 w-90 rounded-lg shadow-lg"
+        isSolved={isSolved}
+      >
         <CardHeader className="mt-3">
           <CardTitle>{name}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -109,11 +111,16 @@ export default function Challenge({ challenge }: any) {
                     onChange={(e) => setFlag(e.target.value)}
                   />
                 </div>
+                <div className="col-span-4 text-center text-red-500 text-sm">
+                  Note: You will spend a wei to try this flag.
+                </div>
               </div>
               <DialogFooter>
                 <Button
                   type="submit"
-                  onClick={() => submitChallenge(key, flag, toast)}
+                  onClick={() =>
+                    submitChallenge(key, flag, toast, reward.toString())
+                  }
                 >
                   Submit
                 </Button>
