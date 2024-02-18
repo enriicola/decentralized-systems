@@ -54,7 +54,7 @@ export default async function ChallengesPage() {
           <h1 className="text-sky-500 text-center my-4 text-xl">Challenges</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-8">
             {challenges?.map(async (challenge) => {
-              let solved = await contract.getSolvedChallenge(
+              let solved = await contract.IsChallengeSolved(
                 userAddress,
                 challenge.key
               );

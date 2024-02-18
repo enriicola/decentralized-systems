@@ -6,7 +6,13 @@ type Challenge = {
   solution: string;
 };
 
-let challenges: Challenge[] = [];
+let challenges: Challenge[] = [
+  {
+    id: 0,
+    flag: "FLAG{first_flag}",
+    solution: "first_flag",
+  },
+];
 
 export async function GET(req: Request) {
   const apiKey = req.headers.get("api-key");
