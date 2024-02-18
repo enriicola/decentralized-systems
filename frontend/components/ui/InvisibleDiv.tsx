@@ -5,11 +5,9 @@ import { Button } from "@/components/ui/button";
 import { getChallengeFlag } from "@/app/actions/user_actions";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 
 export default function InvisibleDiv({

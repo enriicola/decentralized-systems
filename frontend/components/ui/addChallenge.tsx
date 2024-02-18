@@ -1,9 +1,6 @@
 "use client";
 import { ethers } from "ethers";
-import { useUser } from "@/components/context/context";
-import { useEffect } from "react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -60,7 +57,6 @@ export async function add(
   toast: any
 ) {
   let provider = new ethers.BrowserProvider(window.ethereum);
-  //const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
   let user = await provider?.getSigner();
   const SignedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, user);
 
@@ -92,7 +88,6 @@ export async function add(
 
     try {
       const encodedFlag = ethers.keccak256(ethers.toUtf8Bytes(flag));
-      //console.log(encodedFlag);
       let add = await SignedContract.addChallenge(
         encodedFlag,
         reward,
@@ -102,10 +97,8 @@ export async function add(
         title: "Challenge added",
         description: "The challenge has been added to the platform",
       });
-      console.log(add);
       try {
         SignedContract.challengeCounter().then(async (id) => {
-          // save flag and solution in the API in clear
           await saveFlag(id, flag, solution);
           console.log("Flag and solution saved in the API");
         });
@@ -122,14 +115,9 @@ export async function add(
   } catch (error) {
     console.error(error);
   }
-
-  /*.then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));*/
 }
 
 export default function AddChallenge() {
-  const { userAddress, setUserAddress } = useUser();
   const [flag, setFlag] = useState("");
   const [reward, setReward] = useState("");
   const [name, setName] = useState("");
@@ -138,7 +126,6 @@ export default function AddChallenge() {
   const [problem, setProblem] = useState("");
   const [solution, setSolution] = useState("");
   const { toast } = useToast();
-  //console.log("User Address:", userAddress);
 
   return (
     <div>

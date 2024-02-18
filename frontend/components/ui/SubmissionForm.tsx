@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   CardFooter,
@@ -57,7 +56,6 @@ export default function SubmissionForm({
       >
         <CardHeader>
           <CardTitle>{name}</CardTitle>
-          {/* <CardDescription>{c.}</CardDescription> */}
         </CardHeader>
         <CardContent>
           {problemSegments.map((segment, index) => (

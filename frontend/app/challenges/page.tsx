@@ -48,7 +48,6 @@ export default async function ChallengesPage() {
     const userAddress = cookies().get("userAddress")!.value;
     const ownerAddress = await contract.getOwner();
     const challenges = await getChallenge();
-    //const challenges = await getChallenge(contract, signedContract);
     return (
       <div>
         <Suspense fallback={<Loading />}>

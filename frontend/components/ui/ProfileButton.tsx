@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { CONTRACT_ADDRESS } from "@/app/constants";
 import "dotenv/config";
-import abi from "@/public/abi.json"; // TODO:change with the correct abi including the function to modify the profile
+import abi from "@/public/abi.json";
 
 import {
   Dialog,
@@ -206,13 +206,3 @@ const ProfileButton = () => {
 };
 
 export default ProfileButton;
-
-/*</Dialog>
-
-  <button
-    onClick={handleSignOut}
-    className="flex w-full px-4 py-2 items-center rounded-lg text-sm text-gray-700 hover:bg-gray-100"
-  >
-    <LogOut className="w-4 mr-4 opacity-70" />
-    Sign out
-  </button>*/

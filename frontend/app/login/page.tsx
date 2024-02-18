@@ -30,27 +30,8 @@ if (typeof window !== "undefined") {
 export default function LoginPage() {
   const router = useRouter();
   const { userAddress, setUserAddress } = useUser();
-  /*const { contract, setContract } = useUser();
-  const { signedContract, setSignedContract } = useUser();*/
+
   const { toast } = useToast();
-
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.on("accountsChanged", () => {
-  //       window.ethereum
-  //         .request({ method: "eth_accounts" })
-  //         .then((accounts: string[]) => {
-  //           if (accounts.length > 0) {
-  //             // MetaMask is connected
-  //             setUserAddress(accounts[0]);
-  //             //router.push("/challenges");
-  //           }
-  //         })
-  //         .catch(console.error);
-  //     });
-  //   }
-  // }, []);
-
   const connectMetaMask = async (e: React.MouseEvent) => {
     e.preventDefault();
     let user: any;
@@ -71,14 +52,6 @@ export default function LoginPage() {
     }
     const addr = await user.getAddress();
     setUserAddress(addr);
-
-    // Connect to the MetaMask EIP-1193 object. Read only.
-    /*const address = "0xE62A58CB599ee66E724f84B7D0c7F3fc71eDD462";
-    const abi = await (await fetch("/abi.json")).json();
-    const contract = new ethers.Contract(address, abi, provider);
-    //setContract(contract);
-    const SignedContract = new ethers.Contract(address, abi, user);
-    //setSignedContract(SignedContract);*/
     await set_cookie(addr);
   };
 

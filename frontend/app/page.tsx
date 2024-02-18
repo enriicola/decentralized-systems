@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-//import { SignIn, SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import coding from "@/public/coding.png";
 import maths from "@/public/maths.png";
 import security from "@/public/security.png";
 import { useUser } from "@/components/context/context";
-import { useEffect } from "react";
 
 import {
   Carousel,
@@ -24,19 +22,7 @@ type slide = {
 };
 
 export default function Home() {
-  const { userAddress, setUserAddress } = useUser();
-
-  /*useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        if (accounts.length > 0) {
-          console.log(accounts);
-          setUserAddress(accounts[0]);
-          // Manually refresh or redirect to the desired page
-        }
-      });
-    }
-  }, []);*/
+  const { userAddress } = useUser();
 
   const a: slide[] = [
     {
@@ -52,8 +38,6 @@ export default function Home() {
       image: security,
     },
   ];
-
-  //const { user } = useUser();
 
   return (
     <div className="text-center">
@@ -94,13 +78,3 @@ export default function Home() {
     </div>
   );
 }
-
-/*
-</Carousel>
-      {!user && (
-        <Link className={buttonVariants({ variant: "outline" })} href="/login">
-          Connect Wallet to Start!
-        </Link>
-      )}
-    </div>
-*/

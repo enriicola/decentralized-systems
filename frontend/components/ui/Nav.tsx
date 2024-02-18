@@ -6,14 +6,8 @@ import sc from "@/public/smart.png";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/components/context/context";
-import { useEffect } from "react";
-import { set_cookie } from "@/app/actions/actions";
-import { ethers } from "ethers";
-//import { UserButton, useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+
 import ProfileButton from "@/components/ui/ProfileButton";
-// <Link className={buttonVariants({ variant: "outline" })} href="/">
-// import { buttonVariants } from "@/components/ui/button";
 
 type Link = {
   name: string;
@@ -88,5 +82,3 @@ export default function Nav() {
     </nav>
   );
 }
-
-//            <UserButton afterSignOutUrl="/" /> <ProfileButton />

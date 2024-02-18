@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/ui/Nav";
 import { siteConfig } from "@/config/site";
-//import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 import { UserContextProvider } from "@/components/context/context";
 
@@ -58,15 +57,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-/*
-<body className={inter.className}>
-        <userContext.Provider value={[loggedin, setLoggined]}>
-          <ClerkProvider
-            appearance={{
-              elements: {
-                footer: "hidden",
-              },
-            }}
-          >
-*/

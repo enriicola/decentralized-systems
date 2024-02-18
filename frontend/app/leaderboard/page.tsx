@@ -12,10 +12,8 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchScores = async () => {
       setLoading(true);
-      // Connect to Ethereum provider
       let provider = new ethers.BrowserProvider(window.ethereum);
       let contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
-
       let [addresses, scores] = await contract.getScores();
 
       // Create an array of objects, each object contains an address and a score
