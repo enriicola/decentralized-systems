@@ -1,6 +1,6 @@
 # SmartChallenge Smart Contract
 
-## Ali Haider & Giacomo Pedemonte
+Ali Haider & Giacomo Pedemonte
 
 ## Overview
 
