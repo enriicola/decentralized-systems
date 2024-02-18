@@ -1,3 +1,4 @@
+import fs from "fs";
 const API_KEY = "your_api_key_here";
 
 type Challenge = {
@@ -6,13 +7,16 @@ type Challenge = {
   solution: string;
 };
 
-let challenges: Challenge[] = [
-  {
-    id: 0,
-    flag: "FLAG{first_flag}",
-    solution: "first_flag",
-  },
-];
+let challenges: Challenge[] = [];
+try {
+  challenges = JSON.parse(fs.readFileSync("challenges.json", "utf8"));
+} catch (err) {
+  if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+    console.log("File not found! Starting with an empty array.");
+  } else {
+    throw err;
+  }
+}
 
 export async function GET(req: Request) {
   const apiKey = req.headers.get("api-key");
@@ -40,6 +44,7 @@ export async function POST(req: Request) {
     return Response.json("A challenge with this ID already exists");
   } else {
     challenges.push(newChallenge);
+    fs.writeFileSync("challenges.json", JSON.stringify(challenges));
     return Response.json("Challenge added successfully");
   }
 }

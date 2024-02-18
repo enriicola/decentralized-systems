@@ -1,0 +1,1 @@
+[{"id":0,"flag":"FLAG{first_flag}","solution":"first_flag"},{"id":1,"flag":"FLAG{second_flag}","solution":"Arthur' -- -"},{"id":2,"flag":"FLAG{third_flag}","solution":"225"},{"id":3,"flag":"FLAG{fourth_flag}","solution":"WHERE City LIKE '%a%'"},{"id":4,"flag":"FLAG{fifth_flag}","solution":"print(fruits[2:5])"}]
