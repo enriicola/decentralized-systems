@@ -1,3 +1,9 @@
+# Practical part of the exam of Decentralized Systems
+- [ ] Start from one last year's project, available at https://github.com/AliHaider-codes/Blockchain/tree/master, and improve it as much as you can.
+- [ ] The currently deployed dApp is available at smartchallenge.vercel.app/
+- [ ] Refactor the smart contract, improve its security, improve its efficiency, add new challenges, think of a proxy pattern if it makes sense,...
+
+
 # SmartChallenge Smart Contract
 
 Ali Haider & Giacomo Pedemonte
